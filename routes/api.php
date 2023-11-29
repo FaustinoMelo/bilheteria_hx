@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
-|
+| 
 */
 
 Route::post("login", [App\Http\Controllers\AuthController::class, "login"] );
@@ -35,8 +35,8 @@ Route::prefix('rotas')->group(function(){
     Route::post("create", [App\Http\Controllers\RotasController::class, "store"] );
     Route::post("update", [App\Http\Controllers\RotasController::class, "update"] );
     Route::post("delete", [App\Http\Controllers\RotasController::class, "distroy"] );
-    Route::post("find", [App\Http\Controllers\RotasController::class, "show"] );
-    Route::post("findAll", [App\Http\Controllers\RotasController::class, "show"]);
+    Route::get("show/{origem}/{destino}", [App\Http\Controllers\RotasController::class, "show"] );
+    Route::get("all", [App\Http\Controllers\RotasController::class, "show"]);
 });
 
 Route::prefix('perfil')->group(function(){

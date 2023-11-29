@@ -21,6 +21,6 @@ class Viagens extends Model
         "passageiro_id",  
         "user_id",  
         "estado",  
-        "observacao",
+        "observacao",  
     ];
 }

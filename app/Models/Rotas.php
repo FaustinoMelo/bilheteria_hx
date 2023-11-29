@@ -9,14 +9,17 @@ class Rotas extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "nomeRota",
+        "origem",
+        "destino",
         "horario_id",
         "preco",
         "extensao",
         "duracao",
+        "total_ocupantes",
         "n_paragem",
         "desconto",
         "user_id",
         "estado",
+        "local_embarque_id"
     ];
 }
