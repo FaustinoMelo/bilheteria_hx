@@ -23,4 +23,10 @@ class HorariosController extends Controller
         $resultado = Horarios::get();
         return response()->json($resultado);
     }
+
+    public function distroy($id)
+    {
+        $user = Horarios::find($id);
+        $user->delete();
+    }
 }
