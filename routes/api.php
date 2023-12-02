@@ -20,9 +20,6 @@ Route::post("logout", [App\Http\Controllers\AuthController::class, "logout"] );
 Route::post("refresh", [App\Http\Controllers\AuthController::class, "refresh"] );
 
 
-
-Route::middleware(['jwt'])->group( function(){ 
-
     Route::prefix('user')->group(function () {    
         Route::post("create", [App\Http\Controllers\UserController::class, "store"] );
         Route::post("update", [App\Http\Controllers\UserController::class, "update"] );
@@ -55,4 +52,3 @@ Route::middleware(['jwt'])->group( function(){
         
     });
 
-});

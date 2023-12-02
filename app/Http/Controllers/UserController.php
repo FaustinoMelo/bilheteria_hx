@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function showAll(){
         try{
-            $users = User::all();
+            $users = User::get();
             return response()->json($users);
         }catch(Exception $e){
             return response()->json($e);
