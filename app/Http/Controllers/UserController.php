@@ -20,7 +20,7 @@ class UserController extends Controller
 
         $user = User::create($data_user);
         return response()->json($user);
-
+        
     }
 
     public function showAll(){

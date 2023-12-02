@@ -18,4 +18,8 @@ class HorariosController extends Controller
         $resultado = Horarios::create($horarios);
         return response()->json($resultado);
     }
+    public function showAll(){
+        $resultado = Horarios::get();
+        return response()->json($resultado);
+    }
 }

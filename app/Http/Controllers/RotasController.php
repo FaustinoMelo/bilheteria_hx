@@ -49,5 +49,10 @@ class RotasController extends Controller
         }
     
     }
+    
+    public function showAll(){
+        $resultado = Rotas::get();
+        return response()->json($resultado);
+    }
 
 }
