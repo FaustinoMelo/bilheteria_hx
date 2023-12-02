@@ -10,23 +10,26 @@ class UserController extends Controller
     
     public function store(Request $request)
     {
-        
         $data = $request->all();
 
-        try{
-            $data_user=[
-                'email'=> $data['email'],
-                'name'=> $data['name'],
-                'password'=> $data['password']
-            ];
+        $data_user=[
+            'email'=> $data['email'],
+            'name'=> $data['name'],
+            'password'=> bcrypt($data['password'])
+        ];
 
-            $user = User::create($data_user);;
-            
-            return response()->json($user);
+        $user = User::create($data_user);
+        return response()->json($user);
+
+    }
+
+    public function showAll(){
+        try{
+            $users = User::all();
+            return response()->json($users);
         }catch(Exception $e){
             return response()->json($e);
-        }
-
+        } 
     }
 
 }

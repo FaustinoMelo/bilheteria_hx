@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -27,7 +28,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        session()->put('user_id', auth()->user()->id);
         return $this->respondWithToken($token);
+
+        /*$var = Session::all();
+         $id = $var['user_id']; 
+         return response()->json($id);*/
     }
 
     /**
