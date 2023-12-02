@@ -10,6 +10,8 @@ class LocalEmbarque extends Model
     use HasFactory;
 
     protected $fillable = [
-
+        'nomeLocal',
+        'user_id',
+        'estado',
     ];
 }

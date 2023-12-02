@@ -30,6 +30,7 @@ Route::post("refresh", [App\Http\Controllers\AuthController::class, "refresh"] )
 
     Route::prefix('horario')->group(function () {
         Route::post("create", [App\Http\Controllers\HorariosController::class, "store"] );
+        Route::get("findAll", [App\Http\Controllers\HorariosController::class, "showAll"] );
     });
 
     Route::prefix('rotas')->group(function(){

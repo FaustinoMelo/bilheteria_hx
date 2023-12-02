@@ -20,7 +20,7 @@ class UserController extends Controller
 
         $user = User::create($data_user);
         return response()->json($user);
-        
+
     }
 
     public function showAll(){
@@ -31,5 +31,13 @@ class UserController extends Controller
             return response()->json($e);
         } 
     }
+
+    public function distroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+    }
+
+    
 
 }

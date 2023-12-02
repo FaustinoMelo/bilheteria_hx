@@ -55,4 +55,10 @@ class RotasController extends Controller
         return response()->json($resultado);
     }
 
+    public function distroy($id)
+    {
+        $user = Rota::find($id);
+        $user->delete();
+    }
+
 }
