@@ -37,7 +37,7 @@ Route::post("refresh", [App\Http\Controllers\AuthController::class, "refresh"] )
         Route::post("update", [App\Http\Controllers\RotasController::class, "update"] );
         Route::post("delete", [App\Http\Controllers\RotasController::class, "distroy"] );
         Route::get("show/{origem}/{destino}", [App\Http\Controllers\RotasController::class, "show"] );
-        Route::get("all", [App\Http\Controllers\RotasController::class, "show"]);
+        Route::get("all", [App\Http\Controllers\RotasController::class, "showAll"]);
     });
 
     Route::prefix('perfil')->group(function(){
