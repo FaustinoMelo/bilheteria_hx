@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pagamento;
 use App\Models\Viagens;
 use App\Models\Rotas;
+use Illuminate\Support\Facades\DB;
 
 
 class ViagensController extends Controller
@@ -22,25 +23,27 @@ class ViagensController extends Controller
 
             DB::beginTransaction();
 
+            $rotaSelecionada = Rotas::find($request->rota_id);
+            if ($rotaSelecionada->estado == "esgotado") {
+                return response()->json("rota indisponivel, selecione outro horario");
+            }
+
             $pagamento = Pagamento::create($dados_pagamento);
             
             $dados['pagamento_id'] = $pagamento->id;
             $dados['user_id'] = 1;;
             
-            $id = $dados['rotas_id'];
+            $id = $dados['rota_id'];
             
-            $dados['total'] -= $rota->desconto;
+           // $dados['total'] -= $rota->desconto;
             $ocupantes = $this->updateOcupantesQtd($id);
 
-            if($ocupantes<=0){
-                $rota->estado = 'esgotado';
-                $rota->save();
-            }
+            
 
             $viagem = Viagens::create($dados);
-            return response()->json($viagem);
-
             DB::commit();
+
+            return response()->json($viagem);
 
         }catch(Exception $e){
             DB::rollback();
@@ -57,20 +60,29 @@ class ViagensController extends Controller
 
             $qtd_ocupantes = $rota->total_ocupantes - 1;
             
-            if($qtd_ocupantes >= 0){
-                $rota->update([
-                    'total_ocupantes' => $qtd_ocupantes
-                ]);
-                
-                return response()->json($qtd_ocupantes);
-            }else{
-                return response()->json("quantidade insuficiente");
+            $rota->update([
+                'total_ocupantes' => $qtd_ocupantes
+            ]);
+
+            if($qtd_ocupantes <= 0){
+                $rota->estado = 'esgotado';
+                $rota->save();
             }
 
+            return $qtd_ocupantes;
         }else{
             return response()->json("não é possivel reduzir esta quantidade");
         }  
 
+    }
+
+    public function showAll(){
+        try{
+            $users = Viagens::get();
+            return response()->json($users);
+        }catch(Exception $e){
+            return response()->json($e);
+        } 
     }
 }
 

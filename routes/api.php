@@ -46,6 +46,7 @@ Route::post("refresh", [App\Http\Controllers\AuthController::class, "refresh"] )
 
     Route::prefix('viagem')->group(function(){
         Route::post("create", [App\Http\Controllers\ViagensController::class, "store"] );
+        Route::get("findAll", [App\Http\Controllers\ViagensController::class, "showAll"] );
     });
 
     Route::prefix('embarque')->group(function(){
