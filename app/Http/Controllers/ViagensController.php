@@ -6,13 +6,23 @@ use Illuminate\Http\Request;
 use App\Models\Pagamento;
 use App\Models\Viagens;
 use App\Models\Rotas;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Storage;
 
 class ViagensController extends Controller
 {
     public function store(Request $request){
         $dados = $request->all();
+
+        if(! file_exists($request->file('referencia'))){
+            return response()->json("falha ao comprar bilhete, insira o seu comprovativo");
+        }
+
+        $comprovativo = $request->file("referencia");
+        $caminho = $comprovativo->store("public/comprovativo");
+        $dados['referencia'] = Storage::url($caminho);
+
 
         try{
             $dados_pagamento = [
@@ -23,6 +33,11 @@ class ViagensController extends Controller
 
             DB::beginTransaction();
 
+           /* $assento = $this->verificar_assento($request);
+            if($assento){
+                return response()->json('falha ao selecionar acento');
+            }*/
+
             $rotaSelecionada = Rotas::find($request->rota_id);
             if ($rotaSelecionada->estado == "esgotado") {
                 return response()->json("rota indisponivel, selecione outro horario");
@@ -31,7 +46,7 @@ class ViagensController extends Controller
             $pagamento = Pagamento::create($dados_pagamento);
             
             $dados['pagamento_id'] = $pagamento->id;
-            $dados['user_id'] = 1;;
+            $dados['user_id'] = 1;
             
             $id = $dados['rota_id'];
             
@@ -83,6 +98,13 @@ class ViagensController extends Controller
         }catch(Exception $e){
             return response()->json($e);
         } 
+    }
+
+    public function verificar_assento($request){
+        $result = DB::select("SELECT * FROM venda where dataViagem = {$request->dataViagem} and horaViagem  = {$request->horaViagem} and n_assento= {$request->n_assento} and rota_id = {$request->rota_id}");
+        
+        return $result;
+        
     }
 }
 

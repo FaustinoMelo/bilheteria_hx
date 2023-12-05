@@ -46,7 +46,10 @@ class RotasController extends Controller
 
         try{
 
-        $itens = DB::select("SELECT * FROM rotas inner join horarios on rotas.horario_id = horarios.id where rotas.origem = '{$origem}' and rotas.destino = '{$destino}'");
+        $itens = DB::select("SELECT * FROM rotas inner join horarios on rotas.horario_id = horarios.id 
+                            inner join local_embarque on rotas.local_embarque_id = local_embarque_id.id 
+                            where rotas.origem = '{$origem}' and rotas.destino = '{$destino}' and rotas.estado = 'disponivel' ");
+                            
             $rotas=[];
             foreach($itens as $iten){
                 $rotas = $iten;
