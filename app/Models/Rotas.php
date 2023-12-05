@@ -20,6 +20,7 @@ class Rotas extends Model
         "desconto",
         "user_id",
         "estado",
+        "imagem",
         "local_embarque_id"
     ];
 }

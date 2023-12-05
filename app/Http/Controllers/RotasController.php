@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Rotas;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class RotasController extends Controller
 {
@@ -23,12 +24,21 @@ class RotasController extends Controller
         /*$var = Session::all();*/
         $data['user_id'] = 1; //$var['user_id'];
 
-        try{
-            $rota = Rotas::create($data);
-            return response()->json($rota);
-        }catch(Exception $e){
-            return response()->json($e);
+        if(! file_exists($request->file('imagem'))){
+            return response()->json("falha ao criar rota, selecione uma imagem");
         }
+            
+            $imagem = $request->file('imagem');
+            $path = $imagem->store('public/imagem');
+            $data['imagem'] = Storage::url($path);
+
+            try{
+                $rota = Rotas::create($data);
+                return response()->json($rota);
+            }catch(Exception $e){
+                return response()->json($e);
+            }
+        
     
     }
 
@@ -50,6 +60,19 @@ class RotasController extends Controller
     
     }
     
+    public function find($id){
+
+        try{
+
+            $rota = DB::select("SELECT * FROM rotas inner join horarios on rotas.horario_id = horarios.id where rotas.id = '{$id}'");         
+            return response()->json($rota);
+
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    
+    }
+
     public function showAll(){
         $resultado = Rotas::get();
         return response()->json($resultado);
