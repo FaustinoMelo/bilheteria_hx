@@ -48,6 +48,7 @@ Route::post("refresh", [App\Http\Controllers\AuthController::class, "refresh"] )
         Route::post("create", [App\Http\Controllers\ViagensController::class, "store"] );
         Route::get("findAll", [App\Http\Controllers\ViagensController::class, "showAll"] );
     });
+    
 
     Route::prefix('embarque')->group(function(){
         Route::post("create", [App\Http\Controllers\LocalEmbarqueController::class, "store"] ); 
